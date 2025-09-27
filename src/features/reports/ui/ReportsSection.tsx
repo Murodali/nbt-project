@@ -1,4 +1,4 @@
-import { ClockIcon } from "@heroicons/react/24/outline";
+import { ClockIcon, DocumentIcon } from "@heroicons/react/24/solid";
 import { Button, Card, CardBody, Chip } from "@heroui/react";
 import { useState } from "react";
 import { mockReports } from "../model/mockData";
@@ -16,8 +16,10 @@ const ReportCard = ({ report, onUploadClick }: ReportCardProps) => {
       <CardBody className="p-6">
         <div className="flex items-start justify-between mb-4">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-black rounded-full flex items-center justify-center">
-              <div className="w-4 h-4 bg-white rounded-full"></div>
+            <div className="border border-gray-300 rounded-full p-2">
+              <div className="w-10 h-10 bg-black rounded-full flex items-center justify-center ">
+                <DocumentIcon className="w-5 h-5 text-white" />
+              </div>
             </div>
             <div>
               <h3 className="font-semibold text-gray-900">{report.title}</h3>
