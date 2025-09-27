@@ -53,8 +53,12 @@ export const LoginForm = () => {
     <Card className="w-full max-w-md bg-card shadow-lg">
       <CardBody className="p-8">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-foreground mb-2">Авторизация</h1>
-          <p className="text-muted-foreground text-sm">Войдите в учетную запись</p>
+          <h1 className="text-4xl font-bold text-foreground mb-2">
+            Авторизация
+          </h1>
+          <p className="text-muted-foreground text-sm">
+            Войдите в учетную запись
+          </p>
         </div>
 
         <form onSubmit={handleSubmit(handleLogin)} className="space-y-6">
