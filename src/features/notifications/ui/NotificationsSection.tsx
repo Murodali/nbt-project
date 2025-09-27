@@ -3,7 +3,7 @@ import {
   CheckCircleIcon,
   ClockIcon,
   ExclamationTriangleIcon,
-} from "@heroicons/react/24/outline";
+} from "@heroicons/react/24/solid";
 import { Card, CardBody } from "@heroui/react";
 import { useMemo } from "react";
 import { mockNotifications } from "../model/mockData";
@@ -16,30 +16,15 @@ import type {
 const getStatusIcon = (status: NotificationStatus) => {
   switch (status) {
     case "accepted":
-      return <CheckCircleIcon className="w-6 h-6 text-green-500" />;
+      return <CheckCircleIcon className="w-8 w-8  text-green-500" />;
     case "returned":
-      return <BriefcaseIcon className="w-6 h-6 text-orange-500" />;
+      return <BriefcaseIcon className="w-8 h-8  text-orange-500" />;
     case "overdue":
-      return <ExclamationTriangleIcon className="w-6 h-6 text-orange-500" />;
+      return <ExclamationTriangleIcon className="w-8 h-8  text-orange-500" />;
     case "sent":
-      return <ClockIcon className="w-6 h-6 text-blue-500" />;
+      return <ClockIcon className="w-8 h-8  text-blue-500" />;
     default:
-      return <ClockIcon className="w-6 h-6 text-gray-500" />;
-  }
-};
-
-const getStatusColor = (status: NotificationStatus) => {
-  switch (status) {
-    case "accepted":
-      return "bg-white border-green-200 shadow-sm";
-    case "returned":
-      return "bg-white border-orange-200 shadow-sm";
-    case "overdue":
-      return "bg-white border-orange-200 shadow-sm";
-    case "sent":
-      return "bg-white border-blue-200 shadow-sm";
-    default:
-      return "bg-white border-gray-200 shadow-sm";
+      return <ClockIcon className="w-8 h-8  text-gray-500" />;
   }
 };
 
@@ -78,17 +63,16 @@ interface NotificationItemProps {
 
 const NotificationItem = ({ notification }: NotificationItemProps) => {
   return (
-    <Card className={`border ${getStatusColor(notification.status)} h-full`}>
+    <Card className="h-full p-4 rounded-[40px]">
       <CardBody className="p-4 flex flex-col h-full">
         <div className="flex flex-col items-start space-y-3">
-          <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-sm">
-            {getStatusIcon(notification.status)}
-          </div>
+          {getStatusIcon(notification.status)}
+
           <div className="flex-1">
-            <h3 className="text-sm font-semibold text-blue-600 mb-2">
+            <h3 className="text-sm font-semibold text-blue-600 dark:text-blue-400 mb-2">
               {notification.title}
             </h3>
-            <p className="text-xs text-gray-600 leading-relaxed">
+            <p className="text-xs text-gray-600 dark:text-gray-300 leading-relaxed">
               {notification.description}
             </p>
           </div>
@@ -106,11 +90,13 @@ export const NotificationsSection = () => {
 
   return (
     <div className="space-y-8">
-      <h1 className="text-2xl font-bold text-gray-900">Уведомления</h1>
+      <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+        Уведомления
+      </h1>
 
       {notificationGroups.map((group) => (
         <div key={group.date} className="space-y-6">
-          <h2 className="text-xl font-semibold text-gray-900">
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
             {formatDate(group.date)}
           </h2>
 

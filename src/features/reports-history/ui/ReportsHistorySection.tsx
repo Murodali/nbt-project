@@ -11,6 +11,7 @@ import {
   TableColumn,
   TableHeader,
   TableRow,
+  type Selection,
 } from "@heroui/react";
 import { useState } from "react";
 import { mockReportsHistory } from "../model/mockData";
@@ -69,15 +70,17 @@ const columns = [
 ];
 
 export const ReportsHistorySection = () => {
-  const [selectedKeys, setSelectedKeys] = useState(new Set([]));
+  const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set());
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900">История отчетов</h1>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+          История отчетов
+        </h1>
       </div>
 
-      <div className="bg-white rounded-lg shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm">
         <Table
           aria-label="Reports history table"
           selectionMode="multiple"
@@ -85,8 +88,8 @@ export const ReportsHistorySection = () => {
           onSelectionChange={setSelectedKeys}
           classNames={{
             wrapper: "shadow-none",
-            th: "bg-gray-50 text-gray-700 font-medium text-sm",
-            td: "text-gray-900 text-sm",
+            th: "bg-gray-50 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-medium text-sm",
+            td: "text-gray-900 dark:text-gray-100 text-sm",
           }}
         >
           <TableHeader columns={columns}>

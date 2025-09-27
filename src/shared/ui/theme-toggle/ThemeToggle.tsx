@@ -22,7 +22,7 @@ const themeOptions = [
 ];
 
 export const ThemeToggle = () => {
-  const { theme, setTheme, actualTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
 
   const currentThemeOption = themeOptions.find(option => option.key === theme);
   const CurrentIcon = currentThemeOption?.icon || SunIcon;

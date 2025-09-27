@@ -1,5 +1,10 @@
-import axios, { type AxiosError, type AxiosResponse } from "axios";
+import axios, { type AxiosError, type AxiosResponse, type InternalAxiosRequestConfig } from "axios";
 import { API_BASE_URL } from "../lib/constants/routes";
+
+// Extend the InternalAxiosRequestConfig to include _retry property
+interface ExtendedAxiosRequestConfig extends InternalAxiosRequestConfig {
+  _retry?: boolean;
+}
 
 // Create axios instance
 export const apiClient = axios.create({
@@ -49,7 +54,7 @@ apiClient.interceptors.response.use(
     return response;
   },
   async (error: AxiosError) => {
-    const originalRequest = error.config;
+    const originalRequest = error.config as ExtendedAxiosRequestConfig;
 
     // Handle 401 Unauthorized
     if (error.response?.status === 401 && originalRequest && !originalRequest._retry) {
@@ -95,7 +100,7 @@ apiClient.interceptors.response.use(
       console.error("Access forbidden");
     }
 
-    if (error.response?.status >= 500) {
+    if (error.response && error.response.status >= 500) {
       // Server error
       console.error("Server error:", error.response.status);
     }

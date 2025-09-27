@@ -1,5 +1,5 @@
 import { HeroUIProvider } from "@heroui/react";
-import { ReactNode } from "react";
+import { type ReactNode } from "react";
 import { ThemeProvider } from "../../shared/lib/contexts/ThemeContext";
 
 interface UIProviderProps {

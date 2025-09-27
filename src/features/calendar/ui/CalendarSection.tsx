@@ -141,7 +141,7 @@ export const CalendarSection = () => {
                           <div className="font-semibold text-sm">
                             {event.title}
                           </div>
-                          <div className="text-xs text-gray-600 mt-1">
+                          <div className="text-xs text-gray-600 dark:text-gray-300 mt-1">
                             Тип:{" "}
                             {event.type === "report"
                               ? "Отчет"
@@ -149,7 +149,7 @@ export const CalendarSection = () => {
                               ? "Встреча"
                               : "Дедлайн"}
                           </div>
-                          <div className="text-xs text-gray-600">
+                          <div className="text-xs text-gray-600 dark:text-gray-300">
                             Дата:{" "}
                             {new Date(event.date).toLocaleDateString("ru-RU")}
                           </div>
