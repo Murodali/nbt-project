@@ -4,7 +4,7 @@ import { Header } from "../../widgets/header";
 
 export const DashboardPage = () => {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-background">
       {/* Header Widget */}
       <Header />
 

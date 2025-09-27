@@ -50,11 +50,11 @@ export const LoginForm = () => {
   };
 
   return (
-    <Card className="w-full max-w-md bg-white shadow-lg">
+    <Card className="w-full max-w-md bg-card shadow-lg">
       <CardBody className="p-8">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">Авторизация</h1>
-          <p className="text-gray-600 text-sm">Войдите в учетную запись</p>
+          <h1 className="text-4xl font-bold text-foreground mb-2">Авторизация</h1>
+          <p className="text-muted-foreground text-sm">Войдите в учетную запись</p>
         </div>
 
         <form onSubmit={handleSubmit(handleLogin)} className="space-y-6">
@@ -91,9 +91,9 @@ export const LoginForm = () => {
                   onClick={toggleVisibility}
                 >
                   {isVisible ? (
-                    <EyeSlashIcon className="w-5 h-5 text-gray-400" />
+                    <EyeSlashIcon className="w-5 h-5 text-muted-foreground" />
                   ) : (
-                    <EyeIcon className="w-5 h-5 text-gray-400" />
+                    <EyeIcon className="w-5 h-5 text-muted-foreground" />
                   )}
                 </button>
               }

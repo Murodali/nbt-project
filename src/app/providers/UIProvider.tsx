@@ -1,5 +1,6 @@
 import { HeroUIProvider } from "@heroui/react";
 import { ReactNode } from "react";
+import { ThemeProvider } from "../../shared/lib/contexts/ThemeContext";
 
 interface UIProviderProps {
   children: ReactNode;
@@ -7,8 +8,10 @@ interface UIProviderProps {
 
 export const UIProvider = ({ children }: UIProviderProps) => {
   return (
-    <HeroUIProvider>
-      {children}
-    </HeroUIProvider>
+    <ThemeProvider>
+      <HeroUIProvider>
+        {children}
+      </HeroUIProvider>
+    </ThemeProvider>
   );
 };

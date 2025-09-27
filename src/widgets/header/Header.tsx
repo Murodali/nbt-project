@@ -1,5 +1,8 @@
 import {
   ArrowRightOnRectangleIcon,
+  ComputerDesktopIcon,
+  MoonIcon,
+  SunIcon,
   UserCircleIcon,
 } from "@heroicons/react/24/outline";
 import { BellIcon, ClockIcon, UserIcon } from "@heroicons/react/24/solid";
@@ -7,9 +10,30 @@ import { Button, Popover, PopoverContent, PopoverTrigger } from "@heroui/react";
 import { useNavigate } from "react-router-dom";
 import { clearTokens } from "../../shared/api/axios";
 import { ROUTES } from "../../shared/lib/constants/routes";
+import type { Theme } from "../../shared/lib/contexts/ThemeContext";
+import { useTheme } from "../../shared/lib/hooks/useTheme";
+
+const themeOptions = [
+  {
+    key: "light" as Theme,
+    label: "Светлая тема",
+    icon: SunIcon,
+  },
+  {
+    key: "dark" as Theme,
+    label: "Темная тема",
+    icon: MoonIcon,
+  },
+  {
+    key: "system" as Theme,
+    label: "Системная",
+    icon: ComputerDesktopIcon,
+  },
+];
 
 export const Header = () => {
   const navigate = useNavigate();
+  const { theme, setTheme } = useTheme();
 
   const handleLogout = async () => {
     try {
@@ -25,12 +49,12 @@ export const Header = () => {
   };
 
   return (
-    <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
+    <header className="bg-card shadow-sm border-b border-border sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex items-center">
-            <h1 className="text-xl font-bold text-gray-900">Logo</h1>
+            <h1 className="text-xl font-bold text-foreground">Logo</h1>
           </div>
 
           {/* Right side - User info and actions */}
@@ -73,16 +97,16 @@ export const Header = () => {
                 <PopoverContent className="p-0">
                   <div className="px-1 py-2 w-64">
                     {/* User Info Section */}
-                    <div className="px-3 py-2 border-b border-gray-200">
+                    <div className="px-3 py-2 border-b border-border">
                       <div className="flex items-center space-x-3">
-                        <div className="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center">
-                          <UserCircleIcon className="w-6 h-6 text-primary-600" />
+                        <div className="w-10 h-10 bg-secondary rounded-full flex items-center justify-center">
+                          <UserCircleIcon className="w-6 h-6 text-primary" />
                         </div>
                         <div>
-                          <div className="font-semibold text-sm text-gray-900">
+                          <div className="font-semibold text-sm text-foreground">
                             Пользователь
                           </div>
-                          <div className="text-xs text-gray-500">
+                          <div className="text-xs text-muted-foreground">
                             user@example.com
                           </div>
                         </div>
@@ -99,6 +123,34 @@ export const Header = () => {
                       >
                         Профиль
                       </Button>
+
+                      {/* Theme Selection */}
+                      <div className="px-3 py-2">
+                        <div className="text-xs font-medium text-muted-foreground mb-2">
+                          Тема
+                        </div>
+                        <div className="space-y-1">
+                          {themeOptions.map((option) => {
+                            const Icon = option.icon;
+                            const isSelected = theme === option.key;
+                            return (
+                              <Button
+                                key={option.key}
+                                variant={isSelected ? "flat" : "light"}
+                                size="sm"
+                                className="w-full justify-start px-3 py-1 text-left"
+                                startContent={<Icon className="w-4 h-4" />}
+                                onClick={() => setTheme(option.key)}
+                                color={isSelected ? "primary" : "default"}
+                              >
+                                {option.label}
+                              </Button>
+                            );
+                          })}
+                        </div>
+                      </div>
+
+                      <div className="border-t border-border my-1"></div>
 
                       <Button
                         variant="light"

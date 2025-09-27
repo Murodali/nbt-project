@@ -108,22 +108,22 @@ export const OtpForm = ({ phone, onBack }: OtpFormProps) => {
   };
 
   return (
-    <Card className="w-full max-w-md bg-white shadow-lg">
+    <Card className="w-full max-w-md bg-card shadow-lg">
       <CardBody className="p-8">
         {/* Back button */}
         <button
           onClick={onBack}
-          className="flex items-center gap-2 text-gray-600 hover:text-gray-800 mb-6 transition-colors"
+          className="flex items-center gap-2 text-muted-foreground hover:text-foreground mb-6 transition-colors"
         >
           <ArrowLeftIcon className="w-5 h-5" />
           <span>Назад</span>
         </button>
 
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">
+          <h1 className="text-4xl font-bold text-foreground mb-2">
             Проверка OTP
           </h1>
-          <p className="text-gray-600 text-sm">
+          <p className="text-muted-foreground text-sm">
             Введите проверочный код, который мы отправили на указанную
             электронную почту
           </p>
@@ -171,16 +171,16 @@ export const OtpForm = ({ phone, onBack }: OtpFormProps) => {
                 type="button"
                 onClick={handleResendOtp}
                 disabled={resendOtpMutation.isPending}
-                className="text-blue-600 hover:text-blue-700 text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="text-primary hover:text-primary/80 text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {resendOtpMutation.isPending
                   ? "Отправка..."
                   : "Повторно отправить код"}
               </button>
             ) : (
-              <p className="text-gray-500 text-sm">
+              <p className="text-muted-foreground text-sm">
                 Повторно отправить код через{" "}
-                <span className="text-blue-600 font-medium">
+                <span className="text-primary font-medium">
                   {formatTime(countdown)}
                 </span>
               </p>

@@ -12,18 +12,20 @@ interface ReportCardProps {
 
 const ReportCard = ({ report, onUploadClick }: ReportCardProps) => {
   return (
-    <Card className="bg-white shadow-sm">
+    <Card className="bg-card shadow-sm">
       <CardBody className="p-6">
         <div className="flex items-start justify-between mb-4">
           <div className="flex items-center space-x-3">
-            <div className="border border-gray-300 rounded-full p-2">
-              <div className="w-10 h-10 bg-black rounded-full flex items-center justify-center ">
-                <DocumentIcon className="w-5 h-5 text-white" />
+            <div className="border border-border rounded-full p-2">
+              <div className="w-10 h-10 bg-foreground rounded-full flex items-center justify-center ">
+                <DocumentIcon className="w-5 h-5 text-background" />
               </div>
             </div>
             <div>
-              <h3 className="font-semibold text-gray-900">{report.title}</h3>
-              <p className="text-sm text-gray-500">{report.code}</p>
+              <h3 className="font-semibold text-card-foreground">
+                {report.title}
+              </h3>
+              <p className="text-sm text-muted-foreground">{report.code}</p>
             </div>
           </div>
         </div>
@@ -34,7 +36,7 @@ const ReportCard = ({ report, onUploadClick }: ReportCardProps) => {
               key={index}
               size="sm"
               variant="flat"
-              className="bg-gray-100 text-gray-700"
+              className="bg-secondary text-secondary-foreground"
             >
               {tag}
             </Chip>
@@ -42,7 +44,7 @@ const ReportCard = ({ report, onUploadClick }: ReportCardProps) => {
         </div>
 
         <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-1 text-gray-500 text-sm">
+          <div className="flex items-center space-x-1 text-muted-foreground text-sm">
             <ClockIcon className="w-4 h-4" />
             <span>Сегодня до {report.deadline}</span>
           </div>
@@ -77,7 +79,7 @@ export const ReportsSection = () => {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold text-gray-900">Ближайшие отчеты</h2>
+        <h2 className="text-2xl font-bold text-foreground">Ближайшие отчеты</h2>
         <div className="flex items-center space-x-2"></div>
       </div>
 

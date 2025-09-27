@@ -70,28 +70,28 @@ export const CalendarSection = () => {
 
   return (
     <div className="space-y-6">
-      <Card className="bg-white shadow-sm">
+      <Card className="bg-card shadow-sm">
         <CardBody className="p-6">
           {/* Calendar Header */}
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold text-gray-900">
+            <h2 className="text-2xl font-bold text-card-foreground">
               Календарь{" "}
-              <span className="text-gray-400">
+              <span className="text-muted-foreground">
                 {MONTHS[month]} {year}
               </span>
             </h2>
             <div className="flex items-center space-x-2">
               <button
                 onClick={() => navigateMonth("prev")}
-                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                className="p-2 hover:bg-secondary rounded-lg transition-colors"
               >
-                <ChevronLeftIcon className="w-5 h-5 text-gray-600" />
+                <ChevronLeftIcon className="w-5 h-5 text-muted-foreground" />
               </button>
               <button
                 onClick={() => navigateMonth("next")}
-                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                className="p-2 hover:bg-secondary rounded-lg transition-colors"
               >
-                <ChevronRightIcon className="w-5 h-5 text-gray-600" />
+                <ChevronRightIcon className="w-5 h-5 text-muted-foreground" />
               </button>
             </div>
           </div>
@@ -101,7 +101,7 @@ export const CalendarSection = () => {
             {DAYS.map((day) => (
               <div
                 key={day}
-                className="p-2 text-center text-sm font-medium text-gray-500"
+                className="p-2 text-center text-sm font-medium text-muted-foreground"
               >
                 {day}
               </div>
@@ -113,17 +113,19 @@ export const CalendarSection = () => {
             {calendarDays.map((day, index) => (
               <div
                 key={index}
-                className={`min-h-[80px] p-2 border border-gray-100 ${
-                  !day.isCurrentMonth ? "bg-gray-50 text-gray-400" : "bg-white"
-                } ${day.isToday ? "bg-blue-50 border-blue-200" : ""}`}
+                className={`min-h-[80px] p-2 border border-border ${
+                  !day.isCurrentMonth
+                    ? "bg-muted text-muted-foreground"
+                    : "bg-card"
+                } ${day.isToday ? "bg-primary/10 border-primary" : ""}`}
               >
                 <div
                   className={`text-sm font-medium mb-1 ${
                     day.isToday
-                      ? "text-blue-600"
+                      ? "text-primary"
                       : day.isCurrentMonth
-                      ? "text-gray-900"
-                      : "text-gray-400"
+                      ? "text-card-foreground"
+                      : "text-muted-foreground"
                   }`}
                 >
                   {day.date}
@@ -160,7 +162,7 @@ export const CalendarSection = () => {
                         arrow: "bg-neutral-400 dark:bg-white",
                       }}
                     >
-                      <div className="text-xs p-1 bg-blue-100 text-blue-800 rounded truncate cursor-pointer hover:bg-blue-200 transition-colors">
+                      <div className="text-xs p-1 bg-primary/10 text-primary rounded truncate cursor-pointer hover:bg-primary/20 transition-colors">
                         {event.title}
                       </div>
                     </Tooltip>
@@ -186,7 +188,7 @@ export const CalendarSection = () => {
                         arrow: "bg-neutral-400 dark:bg-white",
                       }}
                     >
-                      <div className="text-xs text-gray-500 cursor-pointer hover:text-gray-700 transition-colors">
+                      <div className="text-xs text-muted-foreground cursor-pointer hover:text-foreground transition-colors">
                         +{day.events.length - 2} еще
                       </div>
                     </Tooltip>
