@@ -1,0 +1,17 @@
+# Set correct MIME types for JavaScript modules
+/assets/*.js
+  Content-Type: application/javascript
+
+# Set correct MIME types for CSS files
+/assets/*.css
+  Content-Type: text/css
+
+# Set correct MIME types for SVG files
+*.svg
+  Content-Type: image/svg+xml
+
+# Security headers
+/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
