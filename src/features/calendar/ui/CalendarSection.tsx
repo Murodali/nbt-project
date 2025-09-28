@@ -1,6 +1,16 @@
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
-import { Card, CardBody, Tooltip } from "@heroui/react";
-import { useState } from "react";
+import {
+  Button,
+  Card,
+  CardBody,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  Tooltip,
+} from "@heroui/react";
+import { useEffect, useState } from "react";
 import { mockCalendarEvents } from "../model/mockData";
 import type { CalendarDay, CalendarEvent } from "../model/types";
 
@@ -55,6 +65,21 @@ const generateCalendarDays = (
 
 export const CalendarSection = () => {
   const [currentDate, setCurrentDate] = useState(new Date(2025, 11)); // December 2025
+  const [selectedEvents, setSelectedEvents] = useState<CalendarEvent[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Detect mobile device
+  useEffect(() => {
+    const checkIsMobile = () => {
+      setIsMobile(window.innerWidth < 768 || "ontouchstart" in window);
+    };
+
+    checkIsMobile();
+    window.addEventListener("resize", checkIsMobile);
+
+    return () => window.removeEventListener("resize", checkIsMobile);
+  }, []);
 
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
@@ -66,6 +91,18 @@ export const CalendarSection = () => {
       newDate.setMonth(prev.getMonth() + (direction === "next" ? 1 : -1));
       return newDate;
     });
+  };
+
+  const handleEventClick = (events: CalendarEvent[]) => {
+    if (isMobile) {
+      setSelectedEvents(events);
+      setIsModalOpen(true);
+    }
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedEvents([]);
   };
 
   return (
@@ -133,72 +170,155 @@ export const CalendarSection = () => {
 
                 {/* Events */}
                 <div className="space-y-1">
-                  {day.events.slice(0, 2).map((event) => (
-                    <Tooltip
-                      key={event.id}
-                      content={
-                        <div className="p-2">
-                          <div className="font-semibold text-sm">
-                            {event.title}
-                          </div>
-                          <div className="text-xs text-gray-600 dark:text-gray-300 mt-1">
-                            Тип:{" "}
-                            {event.type === "report"
-                              ? "Отчет"
-                              : event.type === "meeting"
-                              ? "Встреча"
-                              : "Дедлайн"}
-                          </div>
-                          <div className="text-xs text-gray-600 dark:text-gray-300">
-                            Дата:{" "}
-                            {new Date(event.date).toLocaleDateString("ru-RU")}
-                          </div>
-                        </div>
-                      }
-                      placement="top"
-                      delay={300}
-                      closeDelay={100}
-                      classNames={{
-                        arrow: "bg-neutral-400 dark:bg-white",
-                      }}
-                    >
-                      <div className="text-xs p-1 bg-primary/10 text-primary rounded truncate cursor-pointer hover:bg-primary/20 transition-colors">
+                  {day.events.slice(0, 2).map((event) => {
+                    const EventComponent = (
+                      <div
+                        className="text-xs p-1 bg-primary/10 text-primary rounded truncate cursor-pointer hover:bg-primary/20 transition-colors"
+                        onClick={() => handleEventClick([event])}
+                      >
                         {event.title}
                       </div>
-                    </Tooltip>
-                  ))}
-                  {day.events.length > 2 && (
-                    <Tooltip
-                      content={
-                        <div className="p-2">
-                          <div className="font-semibold text-sm mb-2">
-                            Дополнительные события:
-                          </div>
-                          {day.events.slice(2).map((event) => (
-                            <div key={event.id} className="text-xs mb-1">
-                              • {event.title}
+                    );
+
+                    // On mobile, just return the clickable div
+                    if (isMobile) {
+                      return <div key={event.id}>{EventComponent}</div>;
+                    }
+
+                    // On desktop, wrap with tooltip
+                    return (
+                      <Tooltip
+                        key={event.id}
+                        content={
+                          <div className="p-2">
+                            <div className="font-semibold text-sm">
+                              {event.title}
                             </div>
-                          ))}
+                            <div className="text-xs text-gray-600 dark:text-gray-300 mt-1">
+                              Тип:{" "}
+                              {event.type === "report"
+                                ? "Отчет"
+                                : event.type === "meeting"
+                                ? "Встреча"
+                                : "Дедлайн"}
+                            </div>
+                            <div className="text-xs text-gray-600 dark:text-gray-300">
+                              Дата:{" "}
+                              {new Date(event.date).toLocaleDateString("ru-RU")}
+                            </div>
+                          </div>
+                        }
+                        placement="top"
+                        delay={300}
+                        closeDelay={100}
+                        classNames={{
+                          arrow: "bg-neutral-400 dark:bg-white",
+                        }}
+                      >
+                        {EventComponent}
+                      </Tooltip>
+                    );
+                  })}
+                  {day.events.length > 2 &&
+                    (() => {
+                      const MoreEventsComponent = (
+                        <div
+                          className="text-xs text-muted-foreground cursor-pointer hover:text-foreground transition-colors"
+                          onClick={() => handleEventClick(day.events)}
+                        >
+                          +{day.events.length - 2} еще
                         </div>
+                      );
+
+                      // On mobile, just return the clickable div
+                      if (isMobile) {
+                        return MoreEventsComponent;
                       }
-                      placement="top"
-                      delay={300}
-                      closeDelay={100}
-                      classNames={{
-                        arrow: "bg-neutral-400 dark:bg-white",
-                      }}
-                    >
-                      <div className="text-xs text-muted-foreground cursor-pointer hover:text-foreground transition-colors">
-                        +{day.events.length - 2} еще
-                      </div>
-                    </Tooltip>
-                  )}
+
+                      // On desktop, wrap with tooltip
+                      return (
+                        <Tooltip
+                          content={
+                            <div className="p-2">
+                              <div className="font-semibold text-sm mb-2">
+                                Дополнительные события:
+                              </div>
+                              {day.events.slice(2).map((event) => (
+                                <div key={event.id} className="text-xs mb-1">
+                                  • {event.title}
+                                </div>
+                              ))}
+                            </div>
+                          }
+                          placement="top"
+                          delay={300}
+                          closeDelay={100}
+                          classNames={{
+                            arrow: "bg-neutral-400 dark:bg-white",
+                          }}
+                        >
+                          {MoreEventsComponent}
+                        </Tooltip>
+                      );
+                    })()}
                 </div>
               </div>
             ))}
           </div>
         </CardBody>
       </Card>
+
+      {/* Mobile Modal for Event Details */}
+      <Modal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        placement="bottom-center"
+        classNames={{
+          base: "mx-4 mb-4",
+          backdrop: "bg-black/50",
+        }}
+      >
+        <ModalContent>
+          <ModalHeader className="flex flex-col gap-1">
+            <h3 className="text-lg font-semibold">
+              События ({selectedEvents.length})
+            </h3>
+          </ModalHeader>
+          <ModalBody className="pb-6">
+            <div className="space-y-4">
+              {selectedEvents.map((event) => (
+                <div key={event.id} className="p-4 bg-secondary/50 rounded-lg">
+                  <div className="font-semibold text-base mb-2">
+                    {event.title}
+                  </div>
+                  <div className="text-sm text-muted-foreground mb-1">
+                    <span className="font-medium">Тип:</span>{" "}
+                    {event.type === "report"
+                      ? "Отчет"
+                      : event.type === "meeting"
+                      ? "Встреча"
+                      : "Дедлайн"}
+                  </div>
+                  <div className="text-sm text-muted-foreground">
+                    <span className="font-medium">Дата:</span>{" "}
+                    {new Date(event.date).toLocaleDateString("ru-RU")}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </ModalBody>
+          <ModalFooter>
+            <Button
+              color="primary"
+              variant="light"
+              onPress={handleCloseModal}
+              className="w-full"
+            >
+              Закрыть
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </div>
   );
 };

@@ -2,7 +2,7 @@ import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import { InputOtp } from "@heroui/input-otp";
 import { Button, Card, CardBody } from "@heroui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useResendOtp, useVerifyOtp } from "../hooks";
 import { otpSchema, type OtpFormData } from "../model";
@@ -16,6 +16,7 @@ export const OtpForm = ({ phone, onBack }: OtpFormProps) => {
   const [otpValue, setOtpValue] = useState("");
   const [countdown, setCountdown] = useState(120); // 2 minutes
   const [canResend, setCanResend] = useState(false);
+  const otpInputRef = useRef<HTMLDivElement>(null);
 
   const verifyOtpMutation = useVerifyOtp();
   const resendOtpMutation = useResendOtp();
@@ -28,6 +29,23 @@ export const OtpForm = ({ phone, onBack }: OtpFormProps) => {
   } = useForm<OtpFormData>({
     resolver: zodResolver(otpSchema),
   });
+
+  // Focus the first input when component mounts
+  useEffect(() => {
+    const focusFirstInput = () => {
+      if (otpInputRef.current) {
+        // Find the first input element within the OTP component
+        const firstInput = otpInputRef.current.querySelector("input");
+        if (firstInput) {
+          firstInput.focus();
+        }
+      }
+    };
+
+    // Use a small delay to ensure the component is fully rendered
+    const timer = setTimeout(focusFirstInput, 100);
+    return () => clearTimeout(timer);
+  }, []);
 
   // Countdown timer for resend
   useEffect(() => {
@@ -96,6 +114,16 @@ export const OtpForm = ({ phone, onBack }: OtpFormProps) => {
         setCanResend(false);
         setOtpValue("");
         clearErrors();
+
+        // Focus the first input after clearing
+        setTimeout(() => {
+          if (otpInputRef.current) {
+            const firstInput = otpInputRef.current.querySelector("input");
+            if (firstInput) {
+              firstInput.focus();
+            }
+          }
+        }, 100);
       },
       onError: (error: any) => {
         console.error("Resend OTP failed:", error);
@@ -131,8 +159,9 @@ export const OtpForm = ({ phone, onBack }: OtpFormProps) => {
 
         <form onSubmit={handleSubmit(handleVerifyOtp)} className="space-y-6">
           {/* OTP Input */}
-          <div className="flex justify-center mb-6">
+          <div className="flex justify-center mb-6" ref={otpInputRef}>
             <InputOtp
+              autoFocus={true}
               length={5}
               value={otpValue}
               onValueChange={handleOtpChange}
