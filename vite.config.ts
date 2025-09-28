@@ -7,13 +7,17 @@ export default defineConfig({
   build: {
     rollupOptions: {
       output: {
-        manualChunks: undefined,
+        manualChunks: {
+          vendor: ['react', 'react-dom'],
+          ui: ['@heroui/react', '@heroui/input-otp'],
+          router: ['react-router-dom'],
+          query: ['@tanstack/react-query'],
+        },
       },
     },
   },
   server: {
-    headers: {
-      'Content-Type': 'application/javascript',
-    },
+    port: 5173,
+    host: true,
   },
 })
