@@ -170,9 +170,7 @@ export const AccessSettingsSection = () => {
                 defaultSelectedKeys={selectedUser ? ["provider"] : []}
               >
                 {roles.map((role) => (
-                  <SelectItem key={role.key} value={role.key}>
-                    {role.label}
-                  </SelectItem>
+                  <SelectItem key={role.key}>{role.label}</SelectItem>
                 ))}
               </Select>
 

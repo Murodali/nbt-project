@@ -12,7 +12,7 @@ export const ReportDetailPage = () => {
   const [isOtpModalOpen, setIsOtpModalOpen] = useState(false);
   const [revisionComment, setRevisionComment] = useState("");
   const [otpValue, setOtpValue] = useState("");
-  const [countdown, setCountdown] = useState(133); // 2:13 in seconds
+  const [countdown] = useState(133); // 2:13 in seconds
 
   // Mock report data based on ID
   const getReportData = (id: string) => {

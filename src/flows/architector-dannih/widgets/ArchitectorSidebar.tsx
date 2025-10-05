@@ -47,14 +47,17 @@ const userItems = [
   {
     id: "notifications",
     label: "Уведомления",
+    path: null as string | null,
   },
   {
     id: "settings",
     label: "Настройки",
+    path: null as string | null,
   },
   {
     id: "account",
     label: "Аккаунт",
+    path: null as string | null,
   },
 ];
 

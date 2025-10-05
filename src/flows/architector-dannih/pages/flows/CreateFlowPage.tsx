@@ -2,7 +2,6 @@ import {
   closestCenter,
   DndContext,
   DragOverlay,
-  useDroppable,
   type DragEndEvent,
   type DragStartEvent,
 } from "@dnd-kit/core";
@@ -84,31 +83,31 @@ const SortableAvailableField = ({ field }: { field: any }) => {
   );
 };
 
-// Droppable Area Component
-const DroppableArea = ({
-  children,
-  id,
-}: {
-  children: React.ReactNode;
-  id: string;
-}) => {
-  const { isOver, setNodeRef } = useDroppable({
-    id,
-  });
-
-  console.log("DroppableArea render:", { id, isOver });
-
-  return (
-    <div
-      ref={setNodeRef}
-      className={`space-y-4 min-h-32 border-2 border-dashed rounded-lg p-4 transition-colors ${
-        isOver ? "border-blue-500 bg-blue-50" : "border-gray-300"
-      }`}
-    >
-      {children}
-    </div>
-  );
-};
+// Droppable Area Component (unused)
+// const DroppableArea = ({
+//   children,
+//   id,
+// }: {
+//   children: React.ReactNode;
+//   id: string;
+// }) => {
+//   const { isOver, setNodeRef } = useDroppable({
+//     id,
+//   });
+//
+//   console.log("DroppableArea render:", { id, isOver });
+//
+//   return (
+//     <div
+//       ref={setNodeRef}
+//       className={`space-y-4 min-h-32 border-2 border-dashed rounded-lg p-4 transition-colors ${
+//         isOver ? "border-blue-500 bg-blue-50" : "border-gray-300"
+//       }`}
+//     >
+//       {children}
+//     </div>
+//   );
+// };
 
 export const CreateFlowPage = () => {
   const navigate = useNavigate();
