@@ -6,7 +6,7 @@ export const endpointFormSchema = z.object({
   method: z.string().min(1, "Метод обязателен"),
   path: z.string().min(1, "Путь обязателен"),
   service: z.string().min(1, "Сервис обязателен"),
-  is_active: z.boolean().optional().default(true),
+  is_active: z.boolean().default(true),
 });
 
 export type EndpointFormData = z.infer<typeof endpointFormSchema>;

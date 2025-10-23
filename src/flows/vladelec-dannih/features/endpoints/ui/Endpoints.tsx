@@ -1,4 +1,9 @@
-import { EyeIcon, PencilIcon, PlusIcon, TrashIcon } from "@heroicons/react/24/outline";
+import {
+  EyeIcon,
+  PencilIcon,
+  PlusIcon,
+  TrashIcon,
+} from "@heroicons/react/24/outline";
 import {
   Button,
   Card,
@@ -18,10 +23,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import {
-  useEndpoints,
   useCreateEndpoint,
-  useUpdateEndpoint,
   useDeleteEndpoint,
+  useEndpoints,
+  useUpdateEndpoint,
 } from "../hooks/index";
 import type { Endpoint, EndpointFormData } from "../model";
 import { endpointFormSchema } from "../model";
@@ -43,7 +48,7 @@ export const EndpointsSection = () => {
     setValue,
     watch,
   } = useForm<EndpointFormData>({
-    resolver: zodResolver(endpointFormSchema),
+    resolver: zodResolver(endpointFormSchema) as any,
     defaultValues: {
       category: "",
       description: "",
@@ -89,7 +94,7 @@ export const EndpointsSection = () => {
       method: endpoint.method,
       path: endpoint.path,
       service: endpoint.service,
-      is_active: endpoint.is_active ?? true,
+      is_active: endpoint.is_active,
     });
     setIsModalOpen(true);
   };
@@ -172,41 +177,41 @@ export const EndpointsSection = () => {
             <Select
               label="Сервис"
               placeholder="Все сервисы"
-              selectedKeys={serviceFilter ? [serviceFilter] : []}
+              selectedKeys={serviceFilter ? [serviceFilter] : ["all-services"]}
               onSelectionChange={(keys) => {
                 const selected = Array.from(keys)[0] as string;
-                setServiceFilter(selected || "");
+                setServiceFilter(selected === "all-services" ? "" : selected);
               }}
               className="max-w-xs"
             >
-              <SelectItem key="" value="">
-                Все сервисы
-              </SelectItem>
-              {uniqueServices.map((service) => (
-                <SelectItem key={service} value={service}>
-                  {service}
-                </SelectItem>
-              ))}
+              {[
+                <SelectItem key="all-services">Все сервисы</SelectItem>,
+                ...uniqueServices.map((service) => (
+                  <SelectItem key={service}>{service}</SelectItem>
+                )),
+              ]}
             </Select>
 
             <Select
               label="Категория"
               placeholder="Все категории"
-              selectedKeys={categoryFilter ? [categoryFilter] : []}
+              selectedKeys={
+                categoryFilter ? [categoryFilter] : ["all-categories"]
+              }
               onSelectionChange={(keys) => {
                 const selected = Array.from(keys)[0] as string;
-                setCategoryFilter(selected || "");
+                setCategoryFilter(
+                  selected === "all-categories" ? "" : selected
+                );
               }}
               className="max-w-xs"
             >
-              <SelectItem key="" value="">
-                Все категории
-              </SelectItem>
-              {uniqueCategories.map((category) => (
-                <SelectItem key={category} value={category}>
-                  {category}
-                </SelectItem>
-              ))}
+              {[
+                <SelectItem key="all-categories">Все категории</SelectItem>,
+                ...uniqueCategories.map((category) => (
+                  <SelectItem key={category}>{category}</SelectItem>
+                )),
+              ]}
             </Select>
           </div>
 
@@ -435,7 +440,10 @@ export const EndpointsSection = () => {
                   )}
               </div>
             ) : (
-              <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+              <form
+                onSubmit={handleSubmit(onSubmit as any)}
+                className="space-y-6"
+              >
                 <div className="grid grid-cols-2 gap-4">
                   <Input
                     {...register("service")}
@@ -466,11 +474,11 @@ export const EndpointsSection = () => {
                     isInvalid={!!errors.method}
                     errorMessage={errors.method?.message}
                   >
-                    <SelectItem key="GET" value="GET">GET</SelectItem>
-                    <SelectItem key="POST" value="POST">POST</SelectItem>
-                    <SelectItem key="PUT" value="PUT">PUT</SelectItem>
-                    <SelectItem key="DELETE" value="DELETE">DELETE</SelectItem>
-                    <SelectItem key="PATCH" value="PATCH">PATCH</SelectItem>
+                    <SelectItem key="GET">GET</SelectItem>
+                    <SelectItem key="POST">POST</SelectItem>
+                    <SelectItem key="PUT">PUT</SelectItem>
+                    <SelectItem key="DELETE">DELETE</SelectItem>
+                    <SelectItem key="PATCH">PATCH</SelectItem>
                   </Select>
                   <div className="flex items-center">
                     <Switch
@@ -510,7 +518,7 @@ export const EndpointsSection = () => {
                 <Button
                   type="submit"
                   color="primary"
-                  onPress={() => handleSubmit(onSubmit)()}
+                  onPress={() => handleSubmit(onSubmit as any)()}
                   isLoading={
                     createEndpointMutation.isPending ||
                     updateEndpointMutation.isPending

@@ -7,7 +7,7 @@ export interface Endpoint {
   service: string;
   category: string;
   description?: string;
-  is_active?: boolean;
+  is_active: boolean;
   parameters?: EndpointParameter[];
   responses?: EndpointResponse[];
 }

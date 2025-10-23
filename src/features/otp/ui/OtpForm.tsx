@@ -9,7 +9,7 @@ import { useOtp, useResendOtp } from "../hooks/useOtp";
 import { otpSchema, type OtpFormData } from "../model/otpSchema";
 
 export const OtpForm = () => {
-  const [resendCooldown, setResendCooldown] = useState(0);
+  const [resendCooldown] = useState(0);
   const otpMutation = useOtp();
   const resendMutation = useResendOtp();
   const navigate = useNavigate();
@@ -28,7 +28,7 @@ export const OtpForm = () => {
 
   const otpValue = watch("otp");
 
-  const handleOtpSubmit = (data: OtpFormData) => {
+  const handleOtpSubmit = () => {
     navigate(ROUTES.VLADELEC_DASHBOARD);
   };
 

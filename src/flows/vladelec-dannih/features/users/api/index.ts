@@ -1,1 +1,1 @@
-export { accessSettingsApi } from "./accessSettingsApi";
+export { rolesApi } from "./accessSettingsApi";
