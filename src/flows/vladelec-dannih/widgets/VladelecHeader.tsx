@@ -1,11 +1,14 @@
 import {
   ArrowRightOnRectangleIcon,
   ComputerDesktopIcon,
+  GlobeAltIcon,
   MoonIcon,
+  ShieldCheckIcon,
   SunIcon,
   UserCircleIcon,
+  UserGroupIcon,
 } from "@heroicons/react/24/outline";
-import { BellIcon, CogIcon, UserIcon } from "@heroicons/react/24/solid";
+import { BellIcon, UserIcon } from "@heroicons/react/24/solid";
 import { Button, Popover, PopoverContent, PopoverTrigger } from "@heroui/react";
 import { useNavigate } from "react-router-dom";
 import { clearTokens } from "../../../shared/api/axios";
@@ -49,7 +52,7 @@ export const VladelecHeader = () => {
   };
 
   return (
-    <header className="bg-card shadow-sm border-b border-border sticky top-0 z-50">
+    <header className="bg-card shadow-sm border-b border-border sticky top-0 z-50 pt-2">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
@@ -59,16 +62,41 @@ export const VladelecHeader = () => {
 
           {/* Right side - User info and actions */}
           <div className="flex items-center space-x-4">
-            {/* Access Settings Button */}
-            <Button
-              variant="flat"
-              size="md"
-              color="primary"
-              startContent={<CogIcon className="w-4 h-4" />}
-              onClick={() => navigate(ROUTES.VLADELEC_ACCESS_SETTINGS)}
-            >
-              Настройка доступов
-            </Button>
+            {/* Navigation Buttons */}
+            <div className="flex items-center space-x-2">
+              {/* Access Settings Button */}
+              <Button
+                variant="flat"
+                size="md"
+                color="primary"
+                startContent={<UserGroupIcon className="w-4 h-4" />}
+                onClick={() => navigate(ROUTES.VLADELEC_ACCESS_SETTINGS)}
+              >
+                Пользователи
+              </Button>
+
+              {/* Roles Button */}
+              <Button
+                variant="flat"
+                size="md"
+                color="secondary"
+                startContent={<ShieldCheckIcon className="w-4 h-4" />}
+                onClick={() => navigate(ROUTES.VLADELEC_ROLES)}
+              >
+                Роли
+              </Button>
+
+              {/* Endpoints Button */}
+              <Button
+                variant="flat"
+                size="md"
+                color="secondary"
+                startContent={<GlobeAltIcon className="w-4 h-4" />}
+                onClick={() => navigate(ROUTES.VLADELEC_ENDPOINTS)}
+              >
+                Доступы
+              </Button>
+            </div>
 
             {/* User Avatar */}
             <div className="flex items-center space-x-2">

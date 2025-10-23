@@ -1,4 +1,4 @@
-import { AccessSettingsSection } from "../../features/access-settings/AccessSettingsSection";
+import { AccessSettingsSection } from "../../features/users/ui/Users";
 import { VladelecHeader } from "../../widgets/VladelecHeader";
 
 export const AccessSettingsPage = () => {

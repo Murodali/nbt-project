@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { reportsHistoryApi } from "../api";
+import { reportsHistoryApi } from "../api/reportsHistoryApi";
 
 export const useReportsHistory = () => {
   return useQuery({

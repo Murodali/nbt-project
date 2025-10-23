@@ -1,5 +1,5 @@
 import axios, { type AxiosError, type AxiosResponse, type InternalAxiosRequestConfig } from "axios";
-import { API_BASE_URL } from "../lib/constants/routes";
+import { API_BASE_URL, API_ENDPOINTS } from "../lib/constants/api";
 
 // Extend the InternalAxiosRequestConfig to include _retry property
 interface ExtendedAxiosRequestConfig extends InternalAxiosRequestConfig {
@@ -71,18 +71,21 @@ apiClient.interceptors.response.use(
         }
 
         // Attempt to refresh token
-        const response = await axios.post(`${API_BASE_URL}/auth/refresh`, {
-          refreshToken,
+        const response = await axios.post(`${API_BASE_URL}${API_ENDPOINTS.AUTH.REFRESH}`, {
+          refresh_token: refreshToken,
         });
 
-        const { accessToken, refreshToken: newRefreshToken } = response.data;
+        const { access_token, refresh_token: newRefreshToken } = response.data as {
+          access_token: string;
+          refresh_token: string;
+        };
         
         // Update tokens
-        setTokens(accessToken, newRefreshToken);
+        setTokens(access_token, newRefreshToken);
         
         // Retry original request with new token
         if (originalRequest.headers) {
-          originalRequest.headers.Authorization = `Bearer ${accessToken}`;
+          originalRequest.headers.Authorization = `Bearer ${access_token}`;
         }
         
         return apiClient(originalRequest);

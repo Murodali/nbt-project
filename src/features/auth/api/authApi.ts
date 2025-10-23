@@ -1,19 +1,10 @@
 import { apiClient } from "../../../shared/api/axios";
-import type { LoginFormData } from "../model";
-
-export interface LoginResponse {
-  success: boolean;
-  message: string;
-  phone: string; // Return phone for OTP step
-}
-
-export interface RefreshResponse {
-  accessToken: string;
-  refreshToken: string;
-}
+import type { LoginResponse, RefreshResponse } from "../model";
+import type { LoginFormData } from "../model/loginSchema";
+import { clearTokens } from "../utils/tokenUtils";
 
 export const authApi = {
-  // Login user - only validates credentials, doesn't return tokens
+  // Login user - returns role for navigation
   login: async (data: LoginFormData): Promise<LoginResponse> => {
     const response = await apiClient.post<LoginResponse>("/auth/login", data);
     return response.data;
@@ -22,7 +13,7 @@ export const authApi = {
   // Refresh token
   refresh: async (refreshToken: string): Promise<RefreshResponse> => {
     const response = await apiClient.post<RefreshResponse>("/auth/refresh", {
-      refreshToken,
+      refresh_token: refreshToken,
     });
     return response.data;
   },
@@ -36,8 +27,7 @@ export const authApi = {
       console.error("Logout error:", error);
     } finally {
       // Always clear tokens locally
-      localStorage.removeItem("accessToken");
-      localStorage.removeItem("refreshToken");
+      clearTokens();
     }
   },
 

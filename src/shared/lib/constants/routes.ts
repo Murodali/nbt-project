@@ -5,17 +5,25 @@ export const ROUTES = {
   HOME: "/",
   
   // Postavshik Dannih (Data Provider) routes
+  POSTAVSHIK_LOGIN: "/postavshik-dannih/login",
+  POSTAVSHIK_OTP: "/postavshik-dannih/otp",
   POSTAVSHIK_DASHBOARD: "/postavshik-dannih/dashboard",
   POSTAVSHIK_REPORTS_HISTORY: "/postavshik-dannih/reports-history",
   POSTAVSHIK_NOTIFICATIONS: "/postavshik-dannih/notifications",
   
   // Vladelec Dannih (Data Owner) routes
+  VLADELEC_LOGIN: "/vladelec-dannih/login",
+  VLADELEC_OTP: "/vladelec-dannih/otp",
   VLADELEC_DASHBOARD: "/vladelec-dannih/dashboard",
   VLADELEC_ACCESS_SETTINGS: "/vladelec-dannih/access-settings",
+  VLADELEC_ROLES: "/vladelec-dannih/roles",
+  VLADELEC_ENDPOINTS: "/vladelec-dannih/endpoints",
   VLADELEC_NOTIFICATIONS: "/vladelec-dannih/notifications",
   VLADELEC_REPORT_DETAIL: "/vladelec-dannih/reports/:reportId",
   
   // Architector Dannih (Data Architect) routes
+  ARCHITECTOR_LOGIN: "/architector-dannih/login",
+  ARCHITECTOR_OTP: "/architector-dannih/otp",
   ARCHITECTOR_BANK_REPORTS: "/architector-dannih/bank-reports",
   ARCHITECTOR_FLOWS: "/architector-dannih/flows",
   ARCHITECTOR_CREATE_FLOW: "/architector-dannih/flows/create",
@@ -32,7 +40,6 @@ export const ROUTES = {
   REPORTS_HISTORY: "/reports-history",
 } as const;
 
-export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:3000/api";
 
 export type RouteKeys = keyof typeof ROUTES;
 export type RouteValues = typeof ROUTES[RouteKeys];

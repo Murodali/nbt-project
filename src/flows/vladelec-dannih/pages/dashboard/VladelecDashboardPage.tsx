@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { CalendarSection } from "../../../postavshik-dannih/features";
 import { BlizhayshieOtchetySection } from "../../features/blizhayshie-otchety/BlizhayshieOtchetySection";
+import { CalendarSection } from "../../features/calendar";
 import { VladelecHeader } from "../../widgets/VladelecHeader";
 
 export const VladelecDashboardPage = () => {

@@ -1,32 +1,25 @@
 import { useMutation } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../../shared/lib/constants/routes";
-import { authApi, type LoginResponse } from "../api";
-import type { LoginFormData } from "../model";
+import { authApi } from "../api/authApi";
+import type { LoginResponse, RefreshResponse } from "../model";
+import type { LoginFormData } from "../model/loginSchema";
+import { clearTokens, saveTokens } from "../utils/tokenUtils";
 
 export const useLogin = () => {
-  const navigate = useNavigate();
 
   return useMutation<LoginResponse, Error, LoginFormData>({
     mutationFn: async (data: LoginFormData) => {
-      // Mock successful response for now
-      console.log("Mock login with:", data);
-      return {
-        success: true,
-        message: "Login successful",
-        phone: data.phone,
-      };
+      return await authApi.login(data);
     },
-    onSuccess: (response, variables) => {
-      console.log("Login successful:", response);
-      
-      // Navigate to OTP page with phone number
-      navigate(ROUTES.OTP, {
-        state: { phone: response.phone || variables.phone },
+    onSuccess: (data: LoginResponse) => {
+      // Save tokens to localStorage
+      saveTokens({
+        access_token: data.access_token,
+        refresh_token: data.refresh_token,
+        token_type: data.token_type,
+        expires_in: data.expires_in,
+        refresh_expires_in: data.refresh_expires_in,
       });
-    },
-    onError: (error) => {
-      console.error("Login failed:", error);
     },
   });
 };
@@ -34,11 +27,20 @@ export const useLogin = () => {
 export const useRefreshToken = () => {
   return useMutation({
     mutationFn: (refreshToken: string) => authApi.refresh(refreshToken),
+    onSuccess: (data: RefreshResponse) => {
+      // Save new tokens to localStorage
+      saveTokens({
+        access_token: data.access_token,
+        refresh_token: data.refresh_token,
+        token_type: data.token_type,
+        expires_in: data.expires_in,
+        refresh_expires_in: data.refresh_expires_in,
+      });
+    },
     onError: (error) => {
       console.error("Token refresh failed:", error);
       // Clear tokens and redirect to login
-      localStorage.removeItem("accessToken");
-      localStorage.removeItem("refreshToken");
+      clearTokens();
       window.location.href = ROUTES.LOGIN;
     },
   });

@@ -1,6 +1,6 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import { ROUTES } from "../../../shared/lib/constants/routes";
-import { NotificationsPage } from "../../shared/pages/notifications/NotificationsPage";
+import { ArchitectorNotificationsPage } from "../pages/notifications/NotificationsPage";
 import { ArchitectorLayout } from "../layouts/ArchitectorLayout";
 import { BankDetailsPage } from "../pages/bank-reports/BankDetailsPage";
 import { BankReportsPage } from "../pages/bank-reports/BankReportsPage";
@@ -30,7 +30,7 @@ export const ArchitectorRouter = () => {
           path="departments"
           element={<div>Departments Page - Coming Soon</div>}
         />
-        <Route path="notifications" element={<NotificationsPage />} />
+        <Route path="notifications" element={<ArchitectorNotificationsPage />} />
       </Route>
     </Routes>
   );

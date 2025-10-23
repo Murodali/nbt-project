@@ -3,8 +3,10 @@ import { Button, Card, CardBody, Input, Link } from "@heroui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useLogin } from "../hooks";
-import { loginSchema, type LoginFormData } from "../model";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../../../shared/lib/constants/routes";
+import { useLogin } from "../hooks/useLogin";
+import { loginSchema, type LoginFormData } from "../model/loginSchema";
 
 export const LoginForm = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -18,35 +20,24 @@ export const LoginForm = () => {
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      phone: "+992 993300111",
+      username: "",
       password: "",
     },
   });
 
   const toggleVisibility = () => setIsVisible(!isVisible);
+  const navigate = useNavigate();
 
-  const handleLogin = (data: LoginFormData) => {
-    loginMutation.mutate(data, {
-      onError: (error: any) => {
-        // Handle different error types
-        if (error.response?.status === 401) {
-          setError("root", {
-            type: "manual",
-            message: "Неверный номер телефона или пароль",
-          });
-        } else if (error.response?.status === 429) {
-          setError("root", {
-            type: "manual",
-            message: "Слишком много попыток. Попробуйте позже",
-          });
-        } else {
-          setError("root", {
-            type: "manual",
-            message: "Произошла ошибка. Попробуйте позже",
-          });
-        }
-      },
-    });
+  const handleLogin = async (data: LoginFormData) => {
+    try {
+      await loginMutation.mutateAsync(data).then(() => {
+        navigate(ROUTES.OTP, { replace: false });
+      });
+    } catch (error) {
+      setError("root", {
+        message: "Неверное имя пользователя или пароль",
+      });
+    }
   };
 
   return (
@@ -69,14 +60,14 @@ export const LoginForm = () => {
           )}
           <div>
             <Input
-              {...register("phone")}
-              type="tel"
-              label="Номер телефона"
-              placeholder="Номер телефона"
+              {...register("username")}
+              type="text"
+              label="Имя пользователя"
+              placeholder="Имя пользователя"
               color="default"
               variant="flat"
-              isInvalid={!!errors.phone}
-              errorMessage={errors.phone?.message}
+              isInvalid={!!errors.username}
+              errorMessage={errors.username?.message}
             />
           </div>
 

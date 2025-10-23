@@ -1,10 +1,9 @@
 import { z } from "zod";
 
 export const loginSchema = z.object({
-  phone: z
+  username: z
     .string()
-    .min(1, "Номер телефона обязателен")
-    .regex(/^\+992\s?\d{9}$/, "Неверный формат номера телефона"),
+    .min(1, "Имя пользователя обязательно"),
   password: z
     .string()
     .min(1, "Пароль обязателен")

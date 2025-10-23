@@ -1,9 +1,8 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import { FlowSelector } from "../flows/FlowSelector";
+import { LoginForm } from "../features/auth/ui/LoginForm";
+import { OtpForm } from "../features/otp/ui/OtpForm";
 import { ArchitectorRouter } from "../flows/architector-dannih/routes/ArchitectorRouter";
 import { PostavshikRouter } from "../flows/postavshik-dannih/routes/PostavshikRouter";
-import { LoginPage } from "../flows/shared/pages/login/LoginPage";
-import { OtpPage } from "../flows/shared/pages/otp/OtpPage";
 import { VladelecRouter } from "../flows/vladelec-dannih/routes/VladelecRouter";
 import { ROUTES } from "../shared/lib/constants/routes";
 
@@ -13,9 +12,6 @@ export const AppRouter = () => {
       {/* Shared authentication routes */}
       <Route path={ROUTES.LOGIN} element={<LoginPage />} />
       <Route path={ROUTES.OTP} element={<OtpPage />} />
-
-      {/* Flow selector */}
-      <Route path="/select-flow" element={<FlowSelector />} />
 
       {/* Postavshik Dannih (Data Provider) flow */}
       <Route path="/postavshik-dannih/*" element={<PostavshikRouter />} />
@@ -43,8 +39,24 @@ export const AppRouter = () => {
       {/* Default redirect */}
       <Route
         path={ROUTES.HOME}
-        element={<Navigate to="/select-flow" replace />}
+        element={<Navigate to={ROUTES.LOGIN} replace />}
       />
     </Routes>
+  );
+};
+
+const LoginPage = () => {
+  return (
+    <div className="min-h-screen flex items-center justify-center px-4 bg-background">
+      <LoginForm />
+    </div>
+  );
+};
+
+const OtpPage = () => {
+  return (
+    <div className="min-h-screen flex items-center justify-center px-4 bg-background">
+      <OtpForm />
+    </div>
   );
 };

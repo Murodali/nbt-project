@@ -1,5 +1,5 @@
 import { apiClient, setTokens } from "../../../shared/api/axios";
-import type { OtpFormData } from "../model";
+import type { OtpFormData } from "../model/otpSchema";
 
 export interface VerifyOtpResponse {
   success: boolean;
@@ -10,6 +10,7 @@ export interface VerifyOtpResponse {
     id: string;
     phone: string;
     name?: string;
+    role: "postavshik" | "vladelec" | "architector";
   };
 }
 
