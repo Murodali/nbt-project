@@ -25,12 +25,7 @@ export const API_ENDPOINTS = {
   },
 } as const;
 
-// Get API base URL with fallback for production
-export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 
-  (import.meta.env.PROD 
-    ? "https://65.21.129.245:8081" // HTTPS for production
-    : "http://65.21.129.245:8081"  // HTTP for development
-  );
+export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 // Additional environment-based configuration
 export const API_TIMEOUT = Number(import.meta.env.VITE_API_TIMEOUT) || 10000;
