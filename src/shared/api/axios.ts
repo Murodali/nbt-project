@@ -15,6 +15,12 @@ export const apiClient = axios.create({
   },
 });
 
+// Debug logging for production CORS issues
+if (import.meta.env.PROD) {
+  console.log("API Base URL:", API_BASE_URL);
+  console.log("Environment:", import.meta.env.VITE_APP_ENV);
+}
+
 // Token management
 const getAccessToken = (): string | null => {
   return localStorage.getItem("accessToken");
@@ -41,6 +47,13 @@ apiClient.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
+    
+    // Debug logging for CORS issues
+    if (import.meta.env.PROD) {
+      console.log(`Making request to: ${config.baseURL}${config.url}`);
+      console.log('Request headers:', config.headers);
+    }
+    
     return config;
   },
   (error) => {
@@ -51,9 +64,22 @@ apiClient.interceptors.request.use(
 // Response interceptor - Handle token refresh and 401 errors
 apiClient.interceptors.response.use(
   (response: AxiosResponse) => {
+    // Debug logging for successful responses
+    if (import.meta.env.PROD) {
+      console.log(`Response from: ${response.config.url}`, response.status);
+    }
     return response;
   },
   async (error: AxiosError) => {
+    // Debug logging for CORS and other errors
+    if (import.meta.env.PROD) {
+      console.error(`Error from: ${error.config?.url}`, {
+        status: error.response?.status,
+        statusText: error.response?.statusText,
+        headers: error.response?.headers,
+        message: error.message
+      });
+    }
     const originalRequest = error.config as ExtendedAxiosRequestConfig;
 
     // Handle 401 Unauthorized

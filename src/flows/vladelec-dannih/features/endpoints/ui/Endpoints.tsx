@@ -161,14 +161,14 @@ export const EndpointsSection = () => {
         <CardBody className="p-6">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-2xl font-bold text-card-foreground">
-              API Endpoints
+              Доступы к API
             </h2>
             <Button
               color="primary"
               startContent={<PlusIcon className="w-4 h-4" />}
               onPress={handleAddEndpoint}
             >
-              Добавить endpoint
+              Добавить доступ
             </Button>
           </div>
 
@@ -328,17 +328,17 @@ export const EndpointsSection = () => {
           <DrawerHeader className="flex flex-col gap-1">
             <h3 className="text-lg font-semibold">
               {isViewMode
-                ? "Детали Endpoint"
+                ? "Детали доступа"
                 : selectedEndpoint
-                ? "Редактировать Endpoint"
-                : "Добавить Endpoint"}
+                ? "Редактировать доступ"
+                : "Добавить доступ"}
             </h3>
             <p className="text-sm text-muted-foreground">
               {isViewMode
-                ? "Информация о выбранном API endpoint"
+                ? "Информация о выбранном доступе"
                 : selectedEndpoint
-                ? "Редактируйте информацию о endpoint"
-                : "Заполните информацию для нового endpoint"}
+                ? "Редактируйте информацию о доступе"
+                : "Заполните информацию для нового доступа"}
             </p>
           </DrawerHeader>
           <DrawerBody>

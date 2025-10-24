@@ -10,8 +10,8 @@ import {
 } from "@heroicons/react/24/outline";
 import { BellIcon, UserIcon } from "@heroicons/react/24/solid";
 import { Button, Popover, PopoverContent, PopoverTrigger } from "@heroui/react";
-import { useNavigate } from "react-router-dom";
-import { clearTokens } from "../../../shared/api/axios";
+import { useLocation, useNavigate } from "react-router-dom";
+import { clearTokens, getAccessToken } from "../../../shared/api/axios";
 import { ROUTES } from "../../../shared/lib/constants/routes";
 import type { Theme } from "../../../shared/lib/contexts/ThemeContext";
 import { useTheme } from "../../../shared/lib/hooks/useTheme";
@@ -36,6 +36,7 @@ const themeOptions = [
 
 export const VladelecHeader = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { theme, setTheme } = useTheme();
 
   const handleLogout = async () => {
@@ -51,13 +52,25 @@ export const VladelecHeader = () => {
     }
   };
 
+  const handleLogoClick = () => {
+    const token = getAccessToken();
+    if (token) {
+      navigate(ROUTES.VLADELEC_DASHBOARD);
+    }
+  };
+
   return (
     <header className="bg-card shadow-sm border-b border-border sticky top-0 z-50 pt-2">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex items-center">
-            <h1 className="text-xl font-bold text-foreground">Logo</h1>
+            <h1
+              className="text-xl font-bold text-foreground cursor-pointer hover:text-primary transition-colors"
+              onClick={handleLogoClick}
+            >
+              Logo
+            </h1>
           </div>
 
           {/* Right side - User info and actions */}
@@ -66,9 +79,13 @@ export const VladelecHeader = () => {
             <div className="flex items-center space-x-2">
               {/* Access Settings Button */}
               <Button
-                variant="flat"
+                variant={
+                  location.pathname === ROUTES.VLADELEC_ACCESS_SETTINGS
+                    ? "solid"
+                    : "flat"
+                }
                 size="md"
-                color="primary"
+                color="secondary"
                 startContent={<UserGroupIcon className="w-4 h-4" />}
                 onClick={() => navigate(ROUTES.VLADELEC_ACCESS_SETTINGS)}
               >
@@ -77,7 +94,9 @@ export const VladelecHeader = () => {
 
               {/* Roles Button */}
               <Button
-                variant="flat"
+                variant={
+                  location.pathname === ROUTES.VLADELEC_ROLES ? "solid" : "flat"
+                }
                 size="md"
                 color="secondary"
                 startContent={<ShieldCheckIcon className="w-4 h-4" />}
@@ -88,7 +107,11 @@ export const VladelecHeader = () => {
 
               {/* Endpoints Button */}
               <Button
-                variant="flat"
+                variant={
+                  location.pathname === ROUTES.VLADELEC_ENDPOINTS
+                    ? "solid"
+                    : "flat"
+                }
                 size="md"
                 color="secondary"
                 startContent={<GlobeAltIcon className="w-4 h-4" />}
